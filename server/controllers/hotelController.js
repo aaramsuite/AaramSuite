@@ -2,9 +2,13 @@ const Hotel = require("../model/hotelModel");
 
 module.exports.registerHotel = async (req, res, next) => {
   try {
-    const { hotelName, hotelCity, rooms } = req.body;
-    const newHotel = new Hotel({ hotelName, hotelCity, rooms });
-    await newHotel.save();
+    const { hotelName, hotelCity, rooms, hotelImages } = req.body;
+    const newHotel = new Hotel({
+      hotelName,
+      hotelCity,
+      rooms,
+      hotelImages: hotelImages || []
+    });    await newHotel.save();
     res.status(201).json({ message: "Hotel registered successfully", hotel: newHotel });
   } catch (err) {
     next(err);
@@ -22,7 +26,7 @@ module.exports.getHotels = async (req, res, next) => {
 
 module.exports.getHotelById = async (req, res, next) => {
   try {
-    const hotel = await Hotel.findById(req.params.id);
+    const hotel = await Hotel.findOne({ hotelId: parseInt(req.params.id) });
     if (!hotel) return res.status(404).json({ message: "Hotel not found" });
     res.json(hotel);
   } catch (err) {

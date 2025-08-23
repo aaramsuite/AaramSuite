@@ -8,12 +8,17 @@ const roomSchema = new mongoose.Schema({
 });
 
 const hotelSchema = new mongoose.Schema({
-  hotelId: { type: Number, unique: true },
+  hotelId: {
+    type: Number,
+    required: true,
+    unique: true
+  },
   hotelName: { type: String, required: true },
   hotelCity: { type: String, required: true },
   rooms: { type: [roomSchema], required: true },
   hotelImages: [{ type: String }]
-}, { collection: "hotels" });
+});
+
 
 // Pre-save hook for numeric ID
 hotelSchema.pre("save", async function (next) {

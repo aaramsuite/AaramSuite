@@ -49,7 +49,7 @@ const Register = () => {
       toast.error(data.msg);
     }
     if (data.status === true) {
-      localStorage.setItem("hotel-user", JSON.stringify(data.user));
+      // localStorage.setItem("hotel-user", JSON.stringify(data.user));
       toast.success(data.msg);
       navigate('/login');
     }

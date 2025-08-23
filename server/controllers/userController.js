@@ -1,47 +1,32 @@
-const User = require("../model/userModal");
+const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 
-module.exports.register = async (req,res,next) => {
-    try{
-        // console.log(req.body);
-        const { name,password,number,age } = req.body;
-        const phoneNumberCheck = await User.findOne({ number });
-        if(phoneNumberCheck)
-            return res.json({msg: "User already exits", status: false});
-        const hashedpassword = await bcrypt.hash(password,10);
-        const user = await User.create({  
-            name,
-            password: hashedpassword,
-            number,
-            age 
-        });
-        delete user.password;
-        return res.json({ user,status: true }); 
-    } catch (ex) {
-        next(ex);
-    }
+module.exports.register = async (req, res, next) => {
+  try {
+    const { name, password, number, age } = req.body;
+    const existingUser = await User.findOne({ number });
+    if (existingUser) return res.status(400).json({ msg: "User already exists", status: false });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.create({ name, password: hashedPassword, number, age });
+
+    return res.json({ user: { ...user._doc, password: undefined }, status: true });
+  } catch (err) {
+    next(err);
+  }
 };
 
-module.exports.login = async (req,res,next) => {
-    try{
-        // console.log(req.body);
-        const { number,password } = req.body;
-        // console.log(`email id is : ${emailID} and password is ${password}`);
-        const user = await User.findOne({ number });
+module.exports.login = async (req, res, next) => {
+  try {
+    const { number, password } = req.body;
+    const user = await User.findOne({ number });
+    if (!user) return res.status(400).json({ msg: "Incorrect credentials", status: false });
 
-        if(!user)
-            return res.json({msg: "Incorrect username or password", status: false});
-        const isPasswordValid = await  bcrypt.compare(password,user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return res.status(400).json({ msg: "Incorrect credentials", status: false });
 
-        if(!isPasswordValid)
-            return res.json({msg: "Incorrect username or password", status: false});
-        
-        
-        
-        delete user.password;
-        return res.json({ user ,status: true }); 
-    } catch (ex) {
-        next(ex);
-    }
-
+    return res.json({ user: { ...user._doc, password: undefined }, status: true });
+  } catch (err) {
+    next(err);
+  }
 };

@@ -1,37 +1,22 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+const express = require("express");
+const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
-const hotelRoutes = require("./routes/hotelsRoute");
-require("dotenv").config();
-
-dotenv.config();
+const hotelRoutes = require("./routes/hotelRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
+app.use(express.json());
 
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.json({ limit: "50mb" })); // Increase JSON payload limit
-app.use(express.urlencoded({ extended: true, limit: "50mb" })); // Increase URL-encoded payload limit
+// Routes
+app.use("/api/users", userRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/payments", paymentRoutes);
 
-// API Routes
-app.use("/api/auth", userRoutes);
-app.use("/api/hotel", hotelRoutes);
+// DB Connection
+mongoose.connect("mongodb://127.0.0.1:27017/aaramsuite")
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
-// Sample Route to check server status
-app.get('/', (req, res) => {
-  res.send('Server is running...');
-});
-
-// Connect to MongoDB
-mongoose.connect(process.env.LOCAL_DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB connection error:', err));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+app.listen(5000, () => console.log("Server running on port 5000"));

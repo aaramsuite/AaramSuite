@@ -1,30 +1,31 @@
-const Hotel = require('../model/hotelModel');
+const Hotel = require("../models/hotelModel");
 
-module.exports.hotelRegister = async (req, res, next) => {
-    try {
-        const { hotelName, hotelCity, rooms } = req.body; // Extracting fields from request body
+module.exports.registerHotel = async (req, res, next) => {
+  try {
+    const { hotelName, hotelCity, rooms } = req.body;
+    const newHotel = new Hotel({ hotelName, hotelCity, rooms });
+    await newHotel.save();
+    res.status(201).json({ message: "Hotel registered successfully", hotel: newHotel });
+  } catch (err) {
+    next(err);
+  }
+};
 
-        if (!hotelName || !hotelCity || !rooms || !Array.isArray(rooms)) {
-            return res.status(400).json({ message: "Invalid input data." });
-        }
+module.exports.getHotels = async (req, res, next) => {
+  try {
+    const hotels = await Hotel.find();
+    res.json(hotels);
+  } catch (err) {
+    next(err);
+  }
+};
 
-        // Validate room details
-        for (let room of rooms) {
-            if (!room.title || !room.description || !room.images || !Array.isArray(room.images) || room.images.length === 0) {
-                return res.status(400).json({ message: "Invalid room details." });
-            }
-        }
-
-        // Create hotel instance
-        const newHotel = new Hotel({
-            hotelName,
-            hotelCity,
-            rooms,
-        });
-
-        await newHotel.save();
-        return res.status(201).json({ message: "Hotel registered successfully", hotel: newHotel });
-    } catch (error) {
-        next(error);
-    }
+module.exports.getHotelById = async (req, res, next) => {
+  try {
+    const hotel = await Hotel.findById(req.params.id);
+    if (!hotel) return res.status(404).json({ message: "Hotel not found" });
+    res.json(hotel);
+  } catch (err) {
+    next(err);
+  }
 };

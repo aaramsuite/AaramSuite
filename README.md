@@ -32,7 +32,7 @@ The name comes from the Hindi word **"आराम (Aaram)"**, meaning *comfort*
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/aaramsuite.git
+git clone https://github.com/aaramsuite/aaramsuite.git
 
 # Navigate into the folder
 cd aaramsuite

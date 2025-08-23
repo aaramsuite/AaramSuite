@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import MyBookings from "./pages/MyBookings";
 import HotelRegistration from "./pages/HotelRegistration";
 import Details from "./pages/Details";
+import ProtectedRoute from "./pages/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -15,16 +16,17 @@ function App() {
     <>
       <Router>
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/details/:id" element={<Details />} /> {}
-          <Route path="/hotelRegistration" element={<HotelRegistration />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/mybookings" element={<MyBookings />} />
 
-
+          {/* Protected routes */}
+          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/details/:id" element={<ProtectedRoute><Details /></ProtectedRoute>} />
+          <Route path="/hotelRegistration" element={<ProtectedRoute><HotelRegistration /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/mybookings" element={<ProtectedRoute><MyBookings /></ProtectedRoute>} />
         </Routes>
       </Router>
       <ToastContainer

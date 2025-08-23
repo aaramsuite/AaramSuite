@@ -22,7 +22,10 @@ const Navbar = () => {
       <div className="bg-gradient-to-r from-[#f8bbd0] via-[#d1c4e9] to-[#b3e5fc] shadow-md">
         <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
           {/* Logo */}
-          <div className="flex items-center space-x-4 cursor-pointer" onClick={() => navigate('/home')}>
+          <div
+            className="flex items-center space-x-4 cursor-pointer"
+            onClick={() => navigate('/home')}
+          >
             <img
               src={logo}
               alt="Logo"
@@ -64,17 +67,14 @@ const Navbar = () => {
               Notification
             </div>
 
-            <div
-  className="cursor-pointer hover:text-indigo-600 transition-all duration-300"
-  onClick={() => navigate('/mybookings')}
->
-  My Bookings
-</div>
-
-
-            {/* Show Profile + Logout only if user exists */}
             {user && (
               <>
+                <div
+                  className="cursor-pointer hover:text-indigo-600 transition-all duration-300"
+                  onClick={() => navigate('/mybookings')}
+                >
+                  My Bookings
+                </div>
                 <div
                   className="cursor-pointer hover:text-indigo-600 transition-all duration-300"
                   onClick={() => navigate('/profile')}
@@ -106,17 +106,15 @@ const Navbar = () => {
           <div className="cursor-pointer text-gray-800 text-center font-medium py-2 hover:bg-indigo-100 rounded-lg transition-all duration-300">
             Notification
           </div>
-          <div
-  className="cursor-pointer hover:text-indigo-600 transition-all duration-300"
-  onClick={() => navigate('/mybookings')}
->
-  My Bookings
-</div>
 
-
-          {/* Show Profile + Logout only if user exists */}
           {user && (
             <>
+              <div
+                className="cursor-pointer text-gray-800 text-center font-medium py-2 hover:bg-indigo-100 rounded-lg transition-all duration-300"
+                onClick={() => navigate('/mybookings')}
+              >
+                My Bookings
+              </div>
               <div
                 className="cursor-pointer text-gray-800 text-center font-medium py-2 hover:bg-indigo-100 rounded-lg transition-all duration-300"
                 onClick={() => navigate('/profile')}

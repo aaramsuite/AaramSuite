@@ -1,4 +1,4 @@
-const Hotel = require("../models/hotelModel");
+const Hotel = require("../model/hotelModel");
 
 module.exports.registerHotel = async (req, res, next) => {
   try {

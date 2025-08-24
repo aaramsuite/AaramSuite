@@ -2,22 +2,21 @@ const mongoose = require("mongoose");
 const getNextSequence = require("../utils/getNextSequence");
 
 const roomSchema = new mongoose.Schema({
+  roomId: { type: Number, required: true }, // numeric
   type: { type: String, required: true },
   price: { type: Number, required: true },
-  images: [{ type: String, required: true }]
+  description: { type: String },
+  images: [String]
 });
 
 const hotelSchema = new mongoose.Schema({
-  hotelId: {
-    type: Number,
-    required: true,
-    unique: true
-  },
+  hotelId: { type: Number, unique: true },
   hotelName: { type: String, required: true },
   hotelCity: { type: String, required: true },
-  rooms: { type: [roomSchema], required: true },
-  hotelImages: [{ type: String }]
-});
+  hotelImages: [String],
+  ownerId: { type: Number, required: true }, // link to Owner
+  rooms: [roomSchema]
+}, { collection: "hotels" });
 
 
 // Pre-save hook for numeric ID

@@ -6,6 +6,7 @@ const userRoutes = require("./routes/userRoutes");
 const hotelRoutes = require("./routes/hotelsRoute");
 const bookingRoutes = require("./routes/bookingRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const ownerRoutes = require("./routes/ownerRoutes");
 
 const app = express();
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use("/api/auth", userRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/owners", ownerRoutes);
 
 // DB Connection
 mongoose.connect("mongodb://127.0.0.1:27017/aaramsuite")

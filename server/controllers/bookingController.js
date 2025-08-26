@@ -49,7 +49,7 @@ module.exports.getUserBookings = async (req, res) => {
 module.exports.updateBookingStatus = async (req, res) => {
   try {
     const { bookingId, status } = req.body;
-    if (!["pending", "confirmed", "cancelled"].includes(status)) {
+    if (!["Pending", "Confirmed", "Cancelled"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
     }
 

@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const fetchStarted = useRef(false);
 
   useEffect(() => {
+    if (fetchStarted.current) return; // prevent duplicate fetch
+    fetchStarted.current = true;
+
     const storedUser = JSON.parse(localStorage.getItem("hotel-user"));
-    if (!storedUser) return;
+    if (!storedUser){
+      setLoading(false);
+      return;
+    }
 
     axios
       .get(`http://localhost:8000/api/bookings/user?userId=${storedUser.userId}`)

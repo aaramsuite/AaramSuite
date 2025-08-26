@@ -10,7 +10,7 @@ const bookingSchema = new mongoose.Schema({
   guests: { type: Number, required: true },
   checkIn: { type: Date, required: true },
   checkOut: { type: Date, required: true },
-  status: { type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending" }
+  status: { type: String, enum: ["Pending", "Confirmed", "Cancelled"], default: "Pending" }
 }, { collection: "bookings" });
 
 // auto-increment bookingId
